@@ -24,7 +24,7 @@ const users = {
   PB: "Dhruvil@0987"
 };
 
-const TENOR_API_KEY = "AIzaSyAyimkuYQYF_FXVALexPzHeM1vGLr-2r2s"; // Demo key — replace with your own at tenor.com
+const TENOR_API_KEY = "AIzaSyAyimkuYQYF_FXVALexPzHeM1vGLr-2r2s"; // Demo key
 const TENOR_CLIENT_KEY = "office_chat";
 
 const avatarColors = {
@@ -54,6 +54,7 @@ export default function App() {
   const [gifQuery, setGifQuery] = useState("");
   const [gifResults, setGifResults] = useState([]);
   const [gifLoading, setGifLoading] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false); // Mobile Sidebar State
 
   const bottomRef = useRef(null);
   const messagesRef = useRef(null);
@@ -218,7 +219,7 @@ export default function App() {
 
   if (emergencyMode) {
     return (
-      <div style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", background: "white", fontFamily: "monospace", fontSize: "22px", color: "#333" }}>
+      <div style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", background: "white", fontFamily: "monospace", fontSize: "22px", color: "#333", textAlign: "center", padding: "20px" }}>
         ⚠ 404 — App temporarily unavailable
       </div>
     );
@@ -231,45 +232,43 @@ export default function App() {
           @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap');
           * { box-sizing: border-box; margin: 0; padding: 0; }
           body { background: #0f0f13; }
-          .login-input {
-            width: 100%;
-            padding: 14px 18px;
-            margin-top: 12px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 12px;
+          .login-container {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            padding: 50px 44px;
+            border-radius: 24px;
             color: white;
-            font-size: 15px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: all 0.2s;
+            width: 400px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+          }
+          .login-input {
+            width: 100%; padding: 14px 18px; margin-top: 12px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px; color: white; font-size: 15px;
+            font-family: 'DM Sans', sans-serif; outline: none; transition: all 0.2s;
           }
           .login-input:focus { border-color: #7C6EF8; background: rgba(124,110,248,0.08); }
           .login-input::placeholder { color: rgba(255,255,255,0.35); }
           .login-btn {
-            width: 100%;
-            padding: 14px;
-            margin-top: 20px;
-            background: linear-gradient(135deg, #7C6EF8, #5B8DEF);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 0.5px;
+            width: 100%; padding: 14px; margin-top: 20px;
+            background: linear-gradient(135deg, #7C6EF8, #5B8DEF); color: white;
+            border: none; border-radius: 12px; font-size: 15px; font-family: 'DM Sans', sans-serif;
+            font-weight: 600; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px;
           }
           .login-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(124,110,248,0.4); }
           .login-btn:active { transform: translateY(0); }
+          
+          /* Mobile Overrides */
+          @media (max-width: 768px) {
+            .login-container { width: 90%; padding: 40px 24px; }
+          }
         `}</style>
         <div style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", background: "linear-gradient(135deg, #0f0f13 0%, #1a1a2e 50%, #16213e 100%)", position: "relative", overflow: "hidden" }}>
-          {/* Background orbs */}
           <div style={{ position: "absolute", top: "20%", left: "15%", width: "300px", height: "300px", background: "radial-gradient(circle, rgba(124,110,248,0.15) 0%, transparent 70%)", borderRadius: "50%", filter: "blur(40px)" }} />
           <div style={{ position: "absolute", bottom: "20%", right: "15%", width: "250px", height: "250px", background: "radial-gradient(circle, rgba(91,141,239,0.12) 0%, transparent 70%)", borderRadius: "50%", filter: "blur(40px)" }} />
 
-          <div style={{ background: "rgba(255,255,255,0.04)", backdropFilter: "blur(20px)", padding: "50px 44px", borderRadius: "24px", color: "white", width: "400px", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 40px 80px rgba(0,0,0,0.5)" }}>
+          <div className="login-container">
             <div style={{ textAlign: "center", marginBottom: "36px" }}>
               <div style={{ width: "52px", height: "52px", background: "linear-gradient(135deg, #7C6EF8, #5B8DEF)", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px", fontSize: "22px" }}>💬</div>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "26px", fontWeight: "600", color: "white", letterSpacing: "-0.5px" }}>Office Chat</h2>
@@ -295,7 +294,7 @@ export default function App() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; }
+        body { font-family: 'DM Sans', sans-serif; overflow: hidden; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(124,110,248,0.3); border-radius: 2px; }
@@ -317,12 +316,53 @@ export default function App() {
         .action-btn:hover { opacity: 0.85; transform: translateY(-1px); }
         .msg-input { font-family: 'DM Sans', sans-serif; transition: border-color 0.2s; }
         .msg-input:focus { outline: none; border-color: #7C6EF8 !important; }
+        
+        /* RESPONSIVE DESIGN */
+        .sidebar-wrapper {
+          width: 240px; background: #161620; display: flex; flex-direction: column; 
+          border-right: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; transition: transform 0.3s ease;
+        }
+        .sidebar-overlay { display: none; }
+        .mobile-menu-btn { display: none !important; }
+        .msg-content { max-width: 55%; position: relative; }
+        .gif-grid { grid-template-columns: repeat(3, 1fr); }
+        .msg-actions { position: absolute; top: -28px; display: flex; gap: 4px; background: rgba(22,22,32,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 3px 6px; z-index: 10; }
+
+        @media (max-width: 768px) {
+          .sidebar-wrapper {
+            position: fixed; top: 0; bottom: 0; left: 0; z-index: 100;
+            transform: translateX(-100%);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+          }
+          .sidebar-wrapper.open { transform: translateX(0); }
+          .sidebar-overlay { 
+            display: block; position: fixed; inset: 0; 
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 99; 
+          }
+          .mobile-menu-btn { display: block !important; }
+          .msg-content { max-width: 85% !important; }
+          .gif-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .input-container { padding: 12px 12px 16px !important; }
+          .send-text { display: none; } /* Hide the word 'Send' on phones */
+          
+          /* Touch-friendly actions instead of hover on mobile */
+          .msg-actions {
+             position: relative; top: 0; left: 0; right: 0; 
+             background: transparent; border: none; padding: 0; margin-top: 4px; 
+             justify-content: flex-end; opacity: 0.8;
+          }
+        }
       `}</style>
 
-      <div style={{ display: "flex", height: "100vh", background: "#0f0f13" }}>
+      <div style={{ display: "flex", height: "100vh", background: "#0f0f13", position: "relative" }}>
+
+        {/* Mobile Overlay */}
+        {showSidebar && (
+          <div className="sidebar-overlay" onClick={() => setShowSidebar(false)} />
+        )}
 
         {/* SIDEBAR */}
-        <div style={{ width: "240px", background: "#161620", display: "flex", flexDirection: "column", borderRight: "1px solid rgba(255,255,255,0.06)", flexShrink: 0 }}>
+        <div className={`sidebar-wrapper ${showSidebar ? "open" : ""}`}>
           {/* Logo */}
           <div style={{ padding: "22px 20px 16px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -338,7 +378,7 @@ export default function App() {
           <div style={{ padding: "16px 12px 8px", flex: 1, overflowY: "auto" }}>
             <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", fontWeight: "600", letterSpacing: "1.5px", textTransform: "uppercase", padding: "0 8px", marginBottom: "8px" }}>Members</div>
             {Object.keys(users).map((u) => (
-              <div key={u} className="sidebar-user" style={{ padding: "8px 10px", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2px", background: u === user ? "rgba(124,110,248,0.15)" : "transparent", border: u === user ? "1px solid rgba(124,110,248,0.2)" : "1px solid transparent" }}>
+              <div key={u} className="sidebar-user" onClick={() => setShowSidebar(false)} style={{ padding: "8px 10px", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2px", background: u === user ? "rgba(124,110,248,0.15)" : "transparent", border: u === user ? "1px solid rgba(124,110,248,0.2)" : "1px solid transparent", cursor: "pointer" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "9px" }}>
                   <div style={{ position: "relative" }}>
                     <div style={{ width: "28px", height: "28px", borderRadius: "8px", background: avatarColors[u] || "#7C6EF8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", color: "#0f0f13" }}>
@@ -354,7 +394,7 @@ export default function App() {
                   </div>
                 </div>
                 {user === "LG" && u !== "LG" && (
-                  <button className="action-btn" onClick={() => toggleMute(u)} style={{ background: mutedStatus[u] ? "rgba(255,107,107,0.15)" : "rgba(74,222,128,0.12)", border: `1px solid ${mutedStatus[u] ? "rgba(255,107,107,0.3)" : "rgba(74,222,128,0.25)"}`, borderRadius: "6px", color: mutedStatus[u] ? "#ff6b6b" : "#4ade80", fontSize: "10px", padding: "3px 7px", cursor: "pointer", fontWeight: "600" }}>
+                  <button className="action-btn" onClick={(e) => { e.stopPropagation(); toggleMute(u); }} style={{ background: mutedStatus[u] ? "rgba(255,107,107,0.15)" : "rgba(74,222,128,0.12)", border: `1px solid ${mutedStatus[u] ? "rgba(255,107,107,0.3)" : "rgba(74,222,128,0.25)"}`, borderRadius: "6px", color: mutedStatus[u] ? "#ff6b6b" : "#4ade80", fontSize: "10px", padding: "3px 7px", cursor: "pointer", fontWeight: "600" }}>
                     {mutedStatus[u] ? "Unmute" : "Mute"}
                   </button>
                 )}
@@ -366,7 +406,7 @@ export default function App() {
           {typingUsers.length > 0 && (
             <div style={{ padding: "8px 20px", display: "flex", alignItems: "center", gap: "8px" }}>
               <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
-                {[0,1,2].map(i => <div key={i} className="typing-dot" style={{ width: "5px", height: "5px", background: "#7C6EF8", borderRadius: "50%", animationDelay: `${i * 0.2}s` }} />)}
+                {[0, 1, 2].map(i => <div key={i} className="typing-dot" style={{ width: "5px", height: "5px", background: "#7C6EF8", borderRadius: "50%", animationDelay: `${i * 0.2}s` }} />)}
               </div>
               <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px" }}>{typingUsers.join(", ")} typing</span>
             </div>
@@ -377,7 +417,7 @@ export default function App() {
             {user === "LG" && (
               <>
                 <button className="action-btn" onClick={triggerEmergency} style={{ padding: "9px", background: "rgba(255,153,0,0.12)", border: "1px solid rgba(255,153,0,0.25)", color: "#ffa500", borderRadius: "10px", cursor: "pointer", fontSize: "12px", fontWeight: "600", width: "100%" }}>
-                  🚨 Emergency Mode
+                  🚨 Emergency
                 </button>
                 <button className="action-btn" onClick={clearAllMessages} style={{ padding: "9px", background: "rgba(255,107,107,0.1)", border: "1px solid rgba(255,107,107,0.2)", color: "#ff6b6b", borderRadius: "10px", cursor: "pointer", fontSize: "12px", fontWeight: "600", width: "100%" }}>
                   🗑 Clear Messages
@@ -394,23 +434,28 @@ export default function App() {
         </div>
 
         {/* MAIN CHAT */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#12121a", overflow: "hidden" }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#12121a", overflow: "hidden", position: "relative" }}>
+          
           {/* Header */}
-          <div style={{ padding: "16px 24px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(22,22,32,0.8)", backdropFilter: "blur(10px)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <div style={{ width: "8px", height: "8px", background: "#4ade80", borderRadius: "50%", boxShadow: "0 0 8px rgba(74,222,128,0.5)" }} />
+          <div style={{ padding: "16px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(22,22,32,0.8)", backdropFilter: "blur(10px)", zIndex: 10 }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {/* Hamburger Icon for Mobile */}
+              <button className="mobile-menu-btn icon-btn" onClick={() => setShowSidebar(true)} style={{ background: "none", border: "none", color: "white", fontSize: "22px", padding: "0 14px 0 0" }}>
+                ☰
+              </button>
+              <div style={{ width: "8px", height: "8px", background: "#4ade80", borderRadius: "50%", boxShadow: "0 0 8px rgba(74,222,128,0.5)", marginRight: "10px" }} />
               <span style={{ fontFamily: "'Syne', sans-serif", color: "white", fontWeight: "700", fontSize: "16px", letterSpacing: "-0.3px" }}># general</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <div style={{ width: "32px", height: "32px", borderRadius: "10px", background: avatarColors[user] || "#7C6EF8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: "700", color: "#0f0f13" }}>
                 {getInitials(user)}
               </div>
-              <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "13px", fontWeight: "500" }}>{user}</span>
+              <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "13px", fontWeight: "500", display: window.innerWidth < 400 ? "none" : "block" }}>{user}</span>
             </div>
           </div>
 
           {/* Messages area */}
-          <div ref={messagesRef} style={{ flex: 1, overflowY: "auto", padding: "24px 24px 16px", display: "flex", flexDirection: "column", gap: "4px", position: "relative" }}>
+          <div ref={messagesRef} style={{ flex: 1, overflowY: "auto", padding: "24px 20px 16px", display: "flex", flexDirection: "column", gap: "4px", position: "relative" }}>
             {messages.length === 0 && (
               <div style={{ textAlign: "center", color: "rgba(255,255,255,0.2)", marginTop: "60px" }}>
                 <div style={{ fontSize: "48px", marginBottom: "12px" }}>💬</div>
@@ -428,7 +473,6 @@ export default function App() {
 
               return (
                 <div key={m.id} className="msg-bubble" onMouseEnter={() => setHoveredMsg(m.id)} onMouseLeave={() => setHoveredMsg(null)} style={{ display: "flex", justifyContent: isMe ? "flex-end" : "flex-start", alignItems: "flex-end", gap: "8px", marginTop: sameUserAsPrev ? "2px" : "12px" }}>
-                  {/* Avatar placeholder for non-me */}
                   {!isMe && (
                     <div style={{ width: "30px", flexShrink: 0 }}>
                       {showAvatar && (
@@ -439,7 +483,7 @@ export default function App() {
                     </div>
                   )}
 
-                  <div style={{ maxWidth: "55%", position: "relative" }}>
+                  <div className="msg-content">
                     {showAvatar && !isMe && (
                       <div style={{ color: "rgba(255,255,255,0.45)", fontSize: "11px", fontWeight: "600", marginBottom: "4px", paddingLeft: "2px", letterSpacing: "0.3px" }}>{m.user}</div>
                     )}
@@ -447,13 +491,13 @@ export default function App() {
                     {replyMessage && (
                       <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "8px", padding: "6px 10px", marginBottom: "4px", borderLeft: "3px solid #7C6EF8", fontSize: "12px", color: "rgba(255,255,255,0.45)" }}>
                         <span style={{ color: "#a78bfa", fontWeight: "600" }}>{replyMessage.user}: </span>
-                        {replyMessage.text.length > 60 ? replyMessage.text.slice(0, 60) + "..." : replyMessage.text}
+                        {replyMessage.text.length > 50 ? replyMessage.text.slice(0, 50) + "..." : replyMessage.text}
                       </div>
                     )}
 
                     <div onClick={() => setReplyTo(m.id)} style={{ background: isMe ? "linear-gradient(135deg, #7C6EF8, #5B8DEF)" : "rgba(255,255,255,0.07)", color: "white", padding: isGifMessage(m) ? "4px" : "10px 14px", borderRadius: isMe ? "16px 16px 4px 16px" : "16px 16px 16px 4px", fontSize: "14px", lineHeight: "1.5", cursor: "pointer", border: isMe ? "none" : "1px solid rgba(255,255,255,0.08)", wordBreak: "break-word", boxShadow: isMe ? "0 4px 15px rgba(124,110,248,0.25)" : "0 2px 8px rgba(0,0,0,0.2)", position: "relative", overflow: "hidden" }}>
                       {isGifMessage(m) ? (
-                        <img src={m.text} alt="GIF" style={{ maxWidth: "220px", maxHeight: "180px", borderRadius: "12px", display: "block", objectFit: "cover" }} />
+                        <img src={m.text} alt="GIF" style={{ maxWidth: "100%", maxHeight: "180px", borderRadius: "12px", display: "block", objectFit: "cover" }} />
                       ) : m.text}
 
                       <div style={{ fontSize: "10px", opacity: 0.5, marginTop: "4px", textAlign: isMe ? "right" : "left" }}>
@@ -461,9 +505,9 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* Hover actions */}
-                    {hoveredMsg === m.id && (
-                      <div style={{ position: "absolute", top: "-28px", [isMe ? "left" : "right"]: "0", display: "flex", gap: "4px", background: "rgba(22,22,32,0.95)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", padding: "3px 6px", zIndex: 10 }}>
+                    {/* Actions Menu (Visible on hover for PC, visible dynamically on Mobile) */}
+                    {(hoveredMsg === m.id || window.innerWidth <= 768) && (
+                      <div className="msg-actions" style={{ [isMe ? "left" : "right"]: "0" }}>
                         <span className="icon-btn" onClick={() => setReplyTo(m.id)} style={{ fontSize: "13px", padding: "2px 4px" }} title="Reply">↩</span>
                         {user === "LG" && (
                           <span className="icon-btn" onClick={() => deleteMessage(m.id)} style={{ fontSize: "13px", padding: "2px 4px", color: "#ff6b6b" }} title="Delete">🗑</span>
@@ -485,10 +529,10 @@ export default function App() {
           </div>
 
           {/* Input area */}
-          <div style={{ padding: "12px 20px 16px", borderTop: "1px solid rgba(255,255,255,0.06)", background: "#12121a" }}>
+          <div className="input-container" style={{ padding: "12px 24px 16px", borderTop: "1px solid rgba(255,255,255,0.06)", background: "#12121a", zIndex: 10 }}>
             {showEmoji && (
-              <div style={{ marginBottom: "10px" }}>
-                <EmojiPicker theme="dark" onEmojiClick={(emoji) => { setMsg(msg + emoji.emoji); setShowEmoji(false); }} height={320} />
+              <div style={{ marginBottom: "10px", width: "100%" }}>
+                <EmojiPicker theme="dark" onEmojiClick={(emoji) => { setMsg(msg + emoji.emoji); setShowEmoji(false); }} height={320} width="100%" />
               </div>
             )}
 
@@ -505,13 +549,10 @@ export default function App() {
                   <span onClick={() => { setShowGif(false); setGifQuery(""); setGifResults([]); }} style={{ color: "rgba(255,255,255,0.4)", cursor: "pointer", fontSize: "16px", padding: "0 4px" }}>✕</span>
                 </div>
                 {gifLoading && <div style={{ textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "13px", padding: "16px" }}>Searching...</div>}
-                {!gifLoading && gifResults.length === 0 && gifQuery && (
-                  <div style={{ textAlign: "center", color: "rgba(255,255,255,0.25)", fontSize: "13px", padding: "16px" }}>No GIFs found</div>
-                )}
-                {!gifLoading && gifResults.length === 0 && !gifQuery && (
-                  <div style={{ textAlign: "center", color: "rgba(255,255,255,0.2)", fontSize: "13px", padding: "16px" }}>Type to search Tenor GIFs 🎞</div>
-                )}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "6px", maxHeight: "220px", overflowY: "auto" }}>
+                {!gifLoading && gifResults.length === 0 && gifQuery && <div style={{ textAlign: "center", color: "rgba(255,255,255,0.25)", fontSize: "13px", padding: "16px" }}>No GIFs found</div>}
+                {!gifLoading && gifResults.length === 0 && !gifQuery && <div style={{ textAlign: "center", color: "rgba(255,255,255,0.2)", fontSize: "13px", padding: "16px" }}>Type to search Tenor GIFs 🎞</div>}
+                
+                <div className="gif-grid" style={{ display: "grid", gap: "6px", maxHeight: "220px", overflowY: "auto" }}>
                   {gifResults.map((gif) => {
                     const url = gif.media_formats?.gif?.url || gif.media_formats?.tinygif?.url;
                     if (!url) return null;
@@ -523,27 +564,24 @@ export default function App() {
                     );
                   })}
                 </div>
-                <div style={{ textAlign: "center", marginTop: "8px", opacity: 0.3 }}>
-                  <img src="https://www.gstatic.com/tenor/web/attribution/PB_tenor_logo_blue_horizontal.png" alt="Powered by Tenor" style={{ height: "12px" }} />
-                </div>
               </div>
             )}
 
             {replyTo && (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(124,110,248,0.1)", border: "1px solid rgba(124,110,248,0.2)", borderRadius: "10px", padding: "8px 12px", marginBottom: "8px" }}>
-                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: "6px" }}>
+                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: "6px", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
                   <span style={{ color: "#a78bfa" }}>↩ Replying to:</span>
-                  <span style={{ color: "rgba(255,255,255,0.7)" }}>{messages.find((m) => m.id === replyTo)?.text?.slice(0, 50) || "..."}</span>
+                  <span style={{ color: "rgba(255,255,255,0.7)" }}>{messages.find((m) => m.id === replyTo)?.text?.slice(0, 30) || "..."}</span>
                 </div>
-                <span onClick={() => setReplyTo(null)} style={{ color: "#ff6b6b", cursor: "pointer", fontSize: "14px", padding: "0 4px" }}>✕</span>
+                <span onClick={() => setReplyTo(null)} style={{ color: "#ff6b6b", cursor: "pointer", fontSize: "14px", padding: "0 4px", flexShrink: 0 }}>✕</span>
               </div>
             )}
 
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "14px", padding: "6px 6px 6px 14px", transition: "border-color 0.2s" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "14px", padding: "6px 6px 6px 12px", transition: "border-color 0.2s" }}>
               <button onClick={() => setShowEmoji(!showEmoji)} className="icon-btn" style={{ background: "none", border: "none", fontSize: "20px", flexShrink: 0, padding: "4px" }}>
                 😀
               </button>
-              <button onClick={() => { setShowGif(!showGif); setShowEmoji(false); }} className="icon-btn" style={{ background: showGif ? "rgba(124,110,248,0.2)" : "none", border: showGif ? "1px solid rgba(124,110,248,0.3)" : "1px solid transparent", borderRadius: "8px", fontSize: "13px", flexShrink: 0, padding: "5px 8px", color: showGif ? "#a78bfa" : "rgba(255,255,255,0.45)", fontWeight: "700", fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>
+              <button onClick={() => { setShowGif(!showGif); setShowEmoji(false); }} className="icon-btn" style={{ background: showGif ? "rgba(124,110,248,0.2)" : "none", border: showGif ? "1px solid rgba(124,110,248,0.3)" : "1px solid transparent", borderRadius: "8px", fontSize: "12px", flexShrink: 0, padding: "5px 6px", color: showGif ? "#a78bfa" : "rgba(255,255,255,0.45)", fontWeight: "700", fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>
                 GIF
               </button>
 
@@ -552,7 +590,7 @@ export default function App() {
                 value={msg}
                 onChange={handleTyping}
                 onKeyDown={handleKeyDown}
-                placeholder={mutedStatus[user] ? "You are muted by admin..." : "Message #general"}
+                placeholder={mutedStatus[user] ? "Muted..." : "Message"}
                 disabled={mutedStatus[user]}
                 style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "white", fontSize: "14px", padding: "6px 0" }}
               />
@@ -561,14 +599,10 @@ export default function App() {
                 className="send-btn"
                 onClick={sendMessage}
                 disabled={mutedStatus[user] || !msg.trim()}
-                style={{ padding: "10px 18px", background: msg.trim() && !mutedStatus[user] ? "linear-gradient(135deg, #7C6EF8, #5B8DEF)" : "rgba(255,255,255,0.06)", color: msg.trim() && !mutedStatus[user] ? "white" : "rgba(255,255,255,0.25)", border: "none", borderRadius: "10px", cursor: msg.trim() && !mutedStatus[user] ? "pointer" : "not-allowed", fontSize: "13px", fontWeight: "600", flexShrink: 0, transition: "all 0.2s", fontFamily: "'DM Sans', sans-serif" }}
+                style={{ display: "flex", gap: "4px", padding: "10px 14px", background: msg.trim() && !mutedStatus[user] ? "linear-gradient(135deg, #7C6EF8, #5B8DEF)" : "rgba(255,255,255,0.06)", color: msg.trim() && !mutedStatus[user] ? "white" : "rgba(255,255,255,0.25)", border: "none", borderRadius: "10px", cursor: msg.trim() && !mutedStatus[user] ? "pointer" : "not-allowed", fontSize: "13px", fontWeight: "600", flexShrink: 0, transition: "all 0.2s", fontFamily: "'DM Sans', sans-serif" }}
               >
-                Send ↗
+                <span className="send-text">Send</span> ↗
               </button>
-            </div>
-
-            <div style={{ textAlign: "center", marginTop: "8px", color: "rgba(255,255,255,0.15)", fontSize: "10px" }}>
-              Press Enter to send • Click any message to reply
             </div>
           </div>
         </div>
