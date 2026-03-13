@@ -19,7 +19,7 @@ const users = {
   RB: "Shubham@8182",
   RC: "Sunny@1111",
   BS: "Dhruvil@sexpal",
-  HR: "Bhumika@1001",
+  HR: "Bhumika@1000",
   JM: "Adi@3210",
   PB: "Dhruvil@0987"
 };
